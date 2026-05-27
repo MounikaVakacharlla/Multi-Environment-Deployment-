@@ -19,6 +19,7 @@ jobs:
 
       - name: Checkout Repository
         uses: actions/checkout@v4
+        
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -68,9 +69,11 @@ jobs:
           sleep 10
           curl http://localhost:5000
 
-      - name: Staging Deployment Success
+      - name: Simulate Staging Deployment
         run: |
-          echo "Application deployed successfully to staging environment."
+          echo "Deploying to ${{ secrets.STAGING_ENV }}"
+          echo "Using key: ${{ secrets.STAGING_KEY }}"
+          echo "Staging deployment completed successfully."
 
   deploy-production:
     name: Deploy to Production
@@ -85,10 +88,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Production Deployment Simulation
+      - name: Simulate Production Deployment
         run: |
-          echo "Production deployment started..."
-          echo "Deploying latest application version..."
+          echo "Deploying to ${{ secrets.PROD_ENV }}"
+          echo "Using key: ${{ secrets.PROD_KEY }}"
           echo "Production deployment completed successfully."
 
       - name: Verify Production Deployment
@@ -133,89 +136,3 @@ jobs:
           to: vakacharlamounika861@gmail.com
           from: GitHub Actions
 
-
-# name: Multi-Environment CI/CD Pipeline
-
-# on:
-#   push:
-#     branches:
-#       - main
-
-#   pull_request:
-#     branches:
-#       - main
-
-# jobs:
-
-#   staging:
-
-#     environment:
-#       name: staging
-
-#     runs-on: ubuntu-latest
-
-#     steps:
-
-#     - name: Checkout Repository
-#       uses: actions/checkout@v4
-
-#     - name: Setup Python
-#       uses: actions/setup-python@v5
-#       with:
-#         python-version: '3.11'
-
-#     - name: Install Dependencies
-#       run: |
-#         python -m pip install --upgrade pip
-#         pip install -r requirements.txt
-
-#     - name: Run Tests
-#       run: |
-#         pytest tests/
-
-#     - name: Build Application
-#       run: |
-#         python setup.py sdist
-
-#     - name: Deploy to Staging
-#       run: |
-#         echo "Deploying application to STAGING environment..."
-
-#     - name: Smoke Test
-#       run: |
-#         echo "Running smoke tests on staging..."
-#         python app.py
-
-#     - name: Deploy to Staging
-#       run: |
-#         echo "using staging key ${{ secrets.STAGING_KEY }}"
-
-#     - name: Smoke Test
-#       run: |
-#         echo "Running smoke tests on staging..."
-#         python app.py
-
-    
-    
-
-#   production:
-
-#     needs: staging
-
-#     runs-on: ubuntu-latest
-
-#     environment:
-#       name: production
-
-#     steps:
-
-#     - name: Checkout Repository
-#       uses: actions/checkout@v4
-
-#     - name: Deploy to Production
-#       run: |
-#         echo "Using prod key ${{ secrets.PROD_KEY }}"
-
-#     - name: Production Verification
-#       run: |
-#         echo "Production deployment verified successfully!"
